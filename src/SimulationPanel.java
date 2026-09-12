@@ -41,11 +41,6 @@ public class SimulationPanel extends JPanel {
             
             repaint();
         });
-        try {
-            rabbit.setPosition(700, 700);
-        } catch (InvalidPositionException e) {
-            System.out.println(e.getMessage());
-        }
         timer.start();
     }
 
