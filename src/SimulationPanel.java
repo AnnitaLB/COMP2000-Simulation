@@ -22,7 +22,7 @@ public class SimulationPanel extends JPanel {
 
             rabbit.loseEnergy(1);
             wolf.loseEnergy(1);
-            
+
             checkRabbitGrass();
             checkWolfRabbit();
             checkEnergy();
@@ -45,6 +45,11 @@ public class SimulationPanel extends JPanel {
 
         g.setColor(Color.RED);
         g.fillOval(wolf.getX(), wolf.getY(), 20, 20);
+
+        g.setColor(Color.BLACK);
+
+        g.drawString("Rabbit Energy: " + rabbit.getEnergy(), 10, 20);
+        g.drawString("Wolf Energy: " + wolf.getEnergy(), 10, 40);
     }
     
     private void checkRabbitGrass(){
