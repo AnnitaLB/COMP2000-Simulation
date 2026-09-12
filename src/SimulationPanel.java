@@ -8,6 +8,7 @@ public class SimulationPanel extends JPanel {
     private Wolf wolf;
 
     private ArrayList<Grass> grassList;
+    private ArrayList<Animal> animals;
 
     private Timer timer;
 
@@ -16,6 +17,11 @@ public class SimulationPanel extends JPanel {
 
         rabbit = new Rabbit(200, 200);
         wolf = new Wolf(300, 300);
+
+        animals = new ArrayList<Animal>();
+
+        animals.add(rabbit);
+        animals.add(wolf);
 
         grassList = new ArrayList<Grass>();
 
@@ -32,11 +38,12 @@ public class SimulationPanel extends JPanel {
         );
             wolf.moveTowards(rabbit.getX(),rabbit.getY());
 
-            rabbit.loseEnergy(1);
-            wolf.loseEnergy(1);
+            for (Animal animal : animals) {
+                animal.loseEnergy(1);
+        }
 
-            checkRabbitGrass();
             checkWolfRabbit();
+            checkRabbitGrass();
             checkEnergy();
             
             repaint();
@@ -76,7 +83,7 @@ public class SimulationPanel extends JPanel {
             rabbit.getY() < grass.getY() + 20 &&
             rabbit.getY() + 20 > grass.getY()) {
 
-            rabbit.addEnergy(5);
+            rabbit.addEnergy(10);
 
             int newX = (int)(Math.random() * 630);
             int newY = (int)(Math.random() * 630);
@@ -86,24 +93,27 @@ public class SimulationPanel extends JPanel {
     }
 }
     private void checkWolfRabbit() {
-        if (wolf.getX() < rabbit.getX() + 20 &&
-            wolf.getX() + 20 > rabbit.getX() &&
-            wolf.getY() < rabbit.getY() + 20 &&
-            wolf.getY() + 20 > rabbit.getY()) {
+        if (wolf.getX() <= rabbit.getX() + 20 &&
+        wolf.getX() + 20 >= rabbit.getX() &&
+        wolf.getY() <= rabbit.getY() + 20 &&
+        wolf.getY() + 20 >= rabbit.getY()) {
 
-        wolf.addEnergy(10);
+        wolf.addEnergy(20);
 
         int newX = (int)(Math.random() * 630);
         int newY = (int)(Math.random() * 630);
 
-        rabbit = new Rabbit(newX, newY);}
-        }
+        rabbit = new Rabbit(newX, newY);
+        animals.set(0, rabbit);
+    }
+}
         private void checkEnergy() {
     if (!rabbit.isAlive()) {
         int newX = (int)(Math.random() * 630);
         int newY = (int)(Math.random() * 630);
 
         rabbit = new Rabbit(newX, newY);
+        animals.set(0, rabbit);
     }
 
     if (!wolf.isAlive()) {
@@ -111,6 +121,7 @@ public class SimulationPanel extends JPanel {
         int newY = (int)(Math.random() * 630);
 
         wolf = new Wolf(newX, newY);
+        animals.set(1, wolf);
     }
     }
     private Grass findClosestGrass() {
