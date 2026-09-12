@@ -34,5 +34,8 @@ public class Rabbit extends Animal {
             y = 650;
         }
     }
+    public void resetEnergy() {
+    energy = 30;
+}
       
 }

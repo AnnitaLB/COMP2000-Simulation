@@ -54,6 +54,7 @@ public class SimulationPanel extends JPanel {
 
             checkWolfRabbit();
             checkRabbitGrass();
+            reproduceRabbits();
             checkEnergy();
             
             repaint();
@@ -86,7 +87,7 @@ public class SimulationPanel extends JPanel {
 
         g.setColor(Color.BLACK);
 
-        g.drawString("Rabbit Energy: " + rabbit.getEnergy(), 10, 20);
+        g.drawString("Rabbit Energy: " + rabbits.get(0).getEnergy(), 10, 20);
         g.drawString("Wolf Energy: " + wolf.getEnergy(), 10, 40);
     }
     
@@ -132,14 +133,34 @@ public class SimulationPanel extends JPanel {
     }
 }
         private void checkEnergy() {
-    if (!rabbit.isAlive()) {
+     for (int i = rabbits.size() - 1; i >= 0; i--) {
+        Rabbit currentRabbit = rabbits.get(i);
+
+        if (!currentRabbit.isAlive()) {
+            rabbits.remove(i);
+            animals.remove(currentRabbit);
+        }
+    }
+
+    if (rabbits.size() == 0) {
+        Rabbit newRabbit = new Rabbit(200, 200);
+
+        rabbits.add(newRabbit);
+        animals.add(newRabbit);
+
+        rabbit = newRabbit;
+    }
+
+    if (!wolf.isAlive()) {
+        animals.remove(wolf);
+
         int newX = (int)(Math.random() * 630);
         int newY = (int)(Math.random() * 630);
 
-        rabbit = new Rabbit(newX, newY);
-        animals.set(0, rabbit);
-        rabbits.set(0, rabbit);
+        wolf = new Wolf(newX, newY);
+        animals.add(wolf);
     }
+
 
     if (!wolf.isAlive()) {
         int newX = (int)(Math.random() * 630);
@@ -193,4 +214,23 @@ public class SimulationPanel extends JPanel {
 
     return closestRabbit;
 } 
+private void reproduceRabbits() {
+    int currentRabbitCount = rabbits.size();
+
+    for (int i = 0; i < currentRabbitCount; i++) {
+        Rabbit currentRabbit = rabbits.get(i);
+
+        if (currentRabbit.getEnergy() >= 50 && rabbits.size() < 10) {
+            currentRabbit.loseEnergy(20);
+
+            Rabbit newRabbit = new Rabbit(
+                currentRabbit.getX(),
+                currentRabbit.getY()
+            );
+
+            rabbits.add(newRabbit);
+            animals.add(newRabbit);
+        }
+    }
+}
 }
