@@ -15,4 +15,12 @@ public class Entity {
     public int getY() {
         return y;
     }
+    public void setPosition(int newX, int newY) throws InvalidPositionException {
+    if (newX < 0 || newX > 650 || newY < 0 || newY > 650) {
+        throw new InvalidPositionException("Position is outside the simulation area.");
+    }
+
+    x = newX;
+    y = newY;
+}
 }
