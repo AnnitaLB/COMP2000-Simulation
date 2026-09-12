@@ -10,6 +10,9 @@ public abstract class Animal extends Entity {
     public int getEnergy() {
         return energy;
     }
+    public void addEnergy(int amount) {
+        energy = energy + amount;
+    }
 
     public abstract void move();
 }

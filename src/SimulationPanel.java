@@ -17,8 +17,11 @@ public class SimulationPanel extends JPanel {
         grass = new Grass(100, 100);
 
         timer = new Timer(500, e -> {
-            rabbit.move();
+            rabbit.moveTowards(grass.getX(),grass.getY());
             wolf.move();
+
+            checkRabbitGrass();
+
             repaint();
         });
 
@@ -38,4 +41,17 @@ public class SimulationPanel extends JPanel {
         g.setColor(Color.RED);
         g.fillOval(wolf.getX(), wolf.getY(), 20, 20);
     }
+    
+    private void checkRabbitGrass(){
+        if(rabbit.getX() < grass.getX() + 20 && rabbit.getX() + 20> grass.getX() &&
+            rabbit.getY() < grass.getY() +20 && rabbit.getY() + 20 > grass.getY()) {
+
+        rabbit.addEnergy(5);
+
+        int newX = (int)(Math.random() * 630);
+        int newY = (int)(Math.random() * 630);
+
+        grass = new Grass(newX, newY);
+    }
+}
 }

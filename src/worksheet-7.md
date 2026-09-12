@@ -1,10 +1,10 @@
 # COMP2000 Worksheet 1 — Mid-Semester Submission
 
-**Student name:**
+**Bing Liang:**
 
-**Student ID:**
+**48825085:**
 
-**GitHub repo URL:** (your own fork of your team's repository, not your team's URL)
+**GitHub repo URL:https://github.com/AnnitaLB/COMP2000-Simulation** (your own fork of your team's repository, not your team's URL)
 
 ---
 
