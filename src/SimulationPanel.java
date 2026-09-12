@@ -18,7 +18,7 @@ public class SimulationPanel extends JPanel {
 
         timer = new Timer(500, e -> {
             rabbit.moveTowards(grass.getX(),grass.getY());
-            wolf.move();
+            wolf.moveTowards(rabbit.getX(),rabbit.getY());
 
             checkRabbitGrass();
 

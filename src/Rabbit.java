@@ -34,17 +34,5 @@ public class Rabbit extends Animal {
             y = 650;
         }
     }
-    public void moveTowards(int targetX, int targetY){
-       if(x < targetX) {
-        x = x+10;
-        } else if (x > targetX){
-            x= x-10;
-        } 
-        if(y < targetY){
-            y= y+10;
-        }else if( y > targetY){
-            y = y-10;
-        }
-    }
       
 }
