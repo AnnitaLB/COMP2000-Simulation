@@ -9,6 +9,7 @@ public class SimulationPanel extends JPanel {
 
     private ArrayList<Grass> grassList;
     private ArrayList<Animal> animals;
+    private ArrayList<Rabbit> rabbits;
 
     private Timer timer;
 
@@ -17,6 +18,9 @@ public class SimulationPanel extends JPanel {
 
         rabbit = new Rabbit(200, 200);
         wolf = new Wolf(300, 300);
+
+        rabbits = new ArrayList<Rabbit>();
+        rabbits.add(rabbit);
 
         animals = new ArrayList<Animal>();
 
@@ -30,14 +34,20 @@ public class SimulationPanel extends JPanel {
         grassList.add(new Grass(250, 500));
 
         timer = new Timer(500, e -> {
-            Grass targetGrass = findClosestGrass();
+        for (Rabbit currentRabbit : rabbits) {
+            Grass targetGrass = findClosestGrass(currentRabbit);
 
-        rabbit.moveTowards(
-            targetGrass.getX(),
-            targetGrass.getY()
-        );
-            wolf.moveTowards(rabbit.getX(),rabbit.getY());
+            currentRabbit.moveTowards(
+                targetGrass.getX(),
+                targetGrass.getY()
+            );
+}
+           Rabbit targetRabbit = findClosestRabbit();
 
+            wolf.moveTowards(
+            targetRabbit.getX(),
+            targetRabbit.getY()
+    );
             for (Animal animal : animals) {
                 animal.loseEnergy(1);
         }
@@ -62,8 +72,15 @@ public class SimulationPanel extends JPanel {
     }
 
         g.setColor(Color.GRAY);
-        g.fillOval(rabbit.getX(), rabbit.getY(), 20, 20);
 
+        for (Rabbit currentRabbit : rabbits) {
+            g.fillOval(
+            currentRabbit.getX(),
+            currentRabbit.getY(),
+            20,
+            20
+            );
+        }
         g.setColor(Color.RED);
         g.fillOval(wolf.getX(), wolf.getY(), 20, 20);
 
@@ -74,25 +91,29 @@ public class SimulationPanel extends JPanel {
     }
     
     private void checkRabbitGrass() {
-    for (int i = 0; i < grassList.size(); i++) {
+     for (Rabbit currentRabbit : rabbits) {
 
-        Grass grass = grassList.get(i);
+        for (int i = 0; i < grassList.size(); i++) {
+            Grass grass = grassList.get(i);
 
-        if (rabbit.getX() < grass.getX() + 20 &&
-            rabbit.getX() + 20 > grass.getX() &&
-            rabbit.getY() < grass.getY() + 20 &&
-            rabbit.getY() + 20 > grass.getY()) {
+            if (currentRabbit.getX() < grass.getX() + 20 &&
+                currentRabbit.getX() + 20 > grass.getX() &&
+                currentRabbit.getY() < grass.getY() + 20 &&
+                currentRabbit.getY() + 20 > grass.getY()) {
 
-            rabbit.addEnergy(10);
+                currentRabbit.addEnergy(10);
 
-            int newX = (int)(Math.random() * 630);
-            int newY = (int)(Math.random() * 630);
+                int newX = (int)(Math.random() * 630);
+                int newY = (int)(Math.random() * 630);
 
-            grassList.set(i, new Grass(newX, newY));
+                grassList.set(i, new Grass(newX, newY));
+            }
         }
     }
 }
     private void checkWolfRabbit() {
+        Rabbit targetRabbit = findClosestRabbit();
+
         if (wolf.getX() <= rabbit.getX() + 20 &&
         wolf.getX() + 20 >= rabbit.getX() &&
         wolf.getY() <= rabbit.getY() + 20 &&
@@ -103,8 +124,11 @@ public class SimulationPanel extends JPanel {
         int newX = (int)(Math.random() * 630);
         int newY = (int)(Math.random() * 630);
 
-        rabbit = new Rabbit(newX, newY);
-        animals.set(0, rabbit);
+        try {
+            targetRabbit.setPosition(newX, newY);
+        } catch (InvalidPositionException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
         private void checkEnergy() {
@@ -114,6 +138,7 @@ public class SimulationPanel extends JPanel {
 
         rabbit = new Rabbit(newX, newY);
         animals.set(0, rabbit);
+        rabbits.set(0, rabbit);
     }
 
     if (!wolf.isAlive()) {
@@ -124,19 +149,19 @@ public class SimulationPanel extends JPanel {
         animals.set(1, wolf);
     }
     }
-    private Grass findClosestGrass() {
+    private Grass findClosestGrass(Rabbit currentRabbit) {
     Grass closestGrass = grassList.get(0);
 
     int closestDistance =
-        Math.abs(rabbit.getX() - closestGrass.getX()) +
-        Math.abs(rabbit.getY() - closestGrass.getY());
+        Math.abs(currentRabbit.getX() - closestGrass.getX()) +
+        Math.abs(currentRabbit.getY() - closestGrass.getY());
 
     for (int i = 1; i < grassList.size(); i++) {
         Grass grass = grassList.get(i);
 
         int distance =
-            Math.abs(rabbit.getX() - grass.getX()) +
-            Math.abs(rabbit.getY() - grass.getY());
+            Math.abs(currentRabbit.getX() - grass.getX()) +
+            Math.abs(currentRabbit.getY() - grass.getY());
 
         if (distance < closestDistance) {
             closestDistance = distance;
@@ -146,4 +171,26 @@ public class SimulationPanel extends JPanel {
 
     return closestGrass;
 }
+   private Rabbit findClosestRabbit() {
+    Rabbit closestRabbit = rabbits.get(0);
+
+    int closestDistance =
+        Math.abs(wolf.getX() - closestRabbit.getX()) +
+        Math.abs(wolf.getY() - closestRabbit.getY());
+
+    for (int i = 1; i < rabbits.size(); i++) {
+        Rabbit currentRabbit = rabbits.get(i);
+
+        int distance =
+            Math.abs(wolf.getX() - currentRabbit.getX()) +
+            Math.abs(wolf.getY() - currentRabbit.getY());
+
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestRabbit = currentRabbit;
+        }
+    }
+
+    return closestRabbit;
+} 
 }

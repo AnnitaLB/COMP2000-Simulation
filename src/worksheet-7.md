@@ -13,7 +13,16 @@
 **1.1.** Paste the first 10 lines of the output of `git log --graph --oneline --all` from your repository:
 
 ```
-
+* fd59856 (HEAD -> main, origin/main, origin/HEAD) they can finally find food before starving
+* b13abdc removed temporary exception test
+* f57fb64 tested invalid position exception
+* be428a5 rabbit finally noticed there is more than one grass
+* 7e38cb1 made hunger visible
+* 836c988 I nee...ed fooo....d
+* e70d7eb fixed wolf became herbivore
+* 0feb368 wolf eat grass?!!
+* 52883a2 Rabbit alway eat grass
+* 91f0887 randomly moving yeah!
 
 
 
