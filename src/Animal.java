@@ -13,6 +13,12 @@ public abstract class Animal extends Entity {
     public void addEnergy(int amount) {
         energy = energy + amount;
     }
+    public void loseEnergy(int amount) {
+    energy = energy - amount;
+    }
+    public boolean isAlive() {
+    return energy > 0;
+    }
     public void moveTowards(int targetX, int targetY){
        if(x < targetX) {
         x = x+10;
