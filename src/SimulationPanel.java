@@ -7,12 +7,22 @@ public class SimulationPanel extends JPanel {
     private Wolf wolf;
     private Grass grass;
 
+    private Timer timer;
+
     public SimulationPanel() {
         setBackground(Color.WHITE);
 
         rabbit = new Rabbit(200, 200);
         wolf = new Wolf(300, 300);
         grass = new Grass(100, 100);
+
+        timer = new Timer(500, e -> {
+            rabbit.move();
+            wolf.move();
+            repaint();
+        });
+
+        timer.start();
     }
 
     @Override
