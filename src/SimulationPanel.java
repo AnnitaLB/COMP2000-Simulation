@@ -21,7 +21,8 @@ public class SimulationPanel extends JPanel {
             wolf.moveTowards(rabbit.getX(),rabbit.getY());
 
             checkRabbitGrass();
-
+            checkWolfRabbit();
+            
             repaint();
         });
 
@@ -54,4 +55,18 @@ public class SimulationPanel extends JPanel {
         grass = new Grass(newX, newY);
     }
 }
+    private void checkWolfRabbit() {
+        if (wolf.getX() < rabbit.getX() + 20 &&
+            wolf.getX() + 20 > rabbit.getX() &&
+            wolf.getY() < rabbit.getY() + 20 &&
+            wolf.getY() + 20 > rabbit.getY()) {
+
+        wolf.addEnergy(10);
+
+        int newX = (int)(Math.random() * 630);
+        int newY = (int)(Math.random() * 630);
+
+        rabbit = new Rabbit(newX, newY);
+        }
+    }
 }
