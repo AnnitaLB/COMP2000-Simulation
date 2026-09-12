@@ -2,9 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SimulationPanel extends JPanel {
-    
-public SimulationPanel() {
+
+    private Rabbit rabbit;
+    private Wolf wolf;
+    private Grass grass;
+
+    public SimulationPanel() {
         setBackground(Color.WHITE);
+
+        rabbit = new Rabbit(200, 200);
+        wolf = new Wolf(300, 300);
+        grass = new Grass(100, 100);
     }
 
     @Override
@@ -12,12 +20,12 @@ public SimulationPanel() {
         super.paintComponent(g);
 
         g.setColor(Color.GREEN);
-        g.fillRect(100, 100, 20, 20);
+        g.fillRect(grass.getX(), grass.getY(), 20, 20);
 
         g.setColor(Color.GRAY);
-        g.fillOval(200, 200, 20, 20);
+        g.fillOval(rabbit.getX(), rabbit.getY(), 20, 20);
 
         g.setColor(Color.RED);
-        g.fillOval(300, 300, 20, 20);
+        g.fillOval(wolf.getX(), wolf.getY(), 20, 20);
     }
 }
