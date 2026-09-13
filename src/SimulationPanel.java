@@ -12,6 +12,7 @@ public class SimulationPanel extends JPanel {
     private ArrayList<Rabbit> rabbits;
 
     private Timer timer;
+    private int energyCounter = 0;
 
     public SimulationPanel() {
         setBackground(Color.WHITE);
@@ -50,9 +51,15 @@ public class SimulationPanel extends JPanel {
             targetRabbit.getY(),
             5
     );
+            energyCounter = energyCounter + 1;
+
+        if (energyCounter >= 3) {
             for (Animal animal : animals) {
                 animal.loseEnergy(1);
-        }
+            }
+
+            energyCounter = 0;
+}
 
             checkWolfRabbit();
             checkRabbitGrass();
@@ -222,8 +229,8 @@ private void reproduceRabbits() {
     for (int i = 0; i < currentRabbitCount; i++) {
         Rabbit currentRabbit = rabbits.get(i);
 
-        if (currentRabbit.getEnergy() >= 50 && rabbits.size() < 10) {
-            currentRabbit.loseEnergy(20);
+        if (currentRabbit.getEnergy() >= 40 && rabbits.size() < 10) {
+            currentRabbit.loseEnergy(15);
 
             Rabbit newRabbit = new Rabbit(
                 currentRabbit.getX(),
