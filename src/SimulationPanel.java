@@ -33,6 +33,8 @@ public class SimulationPanel extends JPanel {
         grassList.add(new Grass(100, 100));
         grassList.add(new Grass(400, 150));
         grassList.add(new Grass(250, 500));
+        grassList.add(new Grass(500, 400));
+        grassList.add(new Grass(150, 350));
 
         timer = new Timer(500, e -> {
         for (Rabbit currentRabbit : rabbits) {
@@ -263,21 +265,17 @@ private void reproduceRabbits() {
         if (currentRabbit.getEnergy() >= 55 && rabbits.size() < 6) {
             currentRabbit.loseEnergy(15);
 
-            int newX = currentRabbit.getX() + (int)(Math.random() * 61) - 30;
-            int newY = currentRabbit.getY() + (int)(Math.random()* 61) - 30;
+            int newX;
+            int newY;
 
-            if(newX <0){
-                newX = 0;
-            }
-            if( newX > 630){
-                newX = 630;
-            }
-            if(newY < 0){
-                newY = 0;
-            }
-            if(newY > 630){
-                newY = 630;
-            }
+            do {
+                newX = (int)(Math.random() * 630);
+                newY = (int)(Math.random() * 630);
+            } while (
+                Math.abs(newX - wolf.getX()) < 100 &&
+                Math.abs(newY - wolf.getY()) < 100
+            );
+
             Rabbit newRabbit = new Rabbit(newX, newY);
 
             rabbits.add(newRabbit);
