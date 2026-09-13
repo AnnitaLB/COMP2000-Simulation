@@ -148,23 +148,26 @@ public class SimulationPanel extends JPanel {
     }
 }
     private void checkWolfRabbit() {
-        Rabbit targetRabbit = findClosestRabbit();
+        if (rabbits.size() == 0) {
+        return;
+    }
 
-        if (wolf.getX() <= rabbit.getX() + 20 &&
-        wolf.getX() + 20 >= rabbit.getX() &&
-        wolf.getY() <= rabbit.getY() + 20 &&
-        wolf.getY() + 20 >= rabbit.getY()) {
+    Rabbit targetRabbit = findClosestRabbit();
+
+    int xDistance = Math.abs(
+        wolf.getX() - targetRabbit.getX()
+    );
+
+    int yDistance = Math.abs(
+        wolf.getY() - targetRabbit.getY()
+    );
+
+    if (xDistance <= 20 && yDistance <= 20) {
 
         wolf.addEnergy(30);
 
-        int newX = (int)(Math.random() * 630);
-        int newY = (int)(Math.random() * 630);
-
-        try {
-            targetRabbit.setPosition(newX, newY);
-        } catch (InvalidPositionException e) {
-            System.out.println(e.getMessage());
-        }
+        rabbits.remove(targetRabbit);
+        animals.remove(targetRabbit);
     }
 }
         private void checkEnergy() {
@@ -178,12 +181,14 @@ public class SimulationPanel extends JPanel {
     }
 
     if (rabbits.size() == 0) {
-        Rabbit newRabbit = new Rabbit(200, 200);
+        int newX = (int)(Math.random() * 630);
+    int newY = (int)(Math.random() * 630);
 
-        rabbits.add(newRabbit);
-        animals.add(newRabbit);
+    Rabbit newRabbit = new Rabbit(newX, newY);
 
-        rabbit = newRabbit;
+    rabbits.add(newRabbit);
+    animals.add(newRabbit);
+    rabbit = newRabbit;
     }
 
     if (!wolf.isAlive()) {
@@ -255,13 +260,25 @@ private void reproduceRabbits() {
     for (int i = 0; i < currentRabbitCount; i++) {
         Rabbit currentRabbit = rabbits.get(i);
 
-        if (currentRabbit.getEnergy() >= 40 && rabbits.size() < 10) {
+        if (currentRabbit.getEnergy() >= 55 && rabbits.size() < 6) {
             currentRabbit.loseEnergy(15);
 
-            Rabbit newRabbit = new Rabbit(
-                currentRabbit.getX(),
-                currentRabbit.getY()
-            );
+            int newX = currentRabbit.getX() + (int)(Math.random() * 61) - 30;
+            int newY = currentRabbit.getY() + (int)(Math.random()* 61) - 30;
+
+            if(newX <0){
+                newX = 0;
+            }
+            if( newX > 630){
+                newX = 630;
+            }
+            if(newY < 0){
+                newY = 0;
+            }
+            if(newY > 630){
+                newY = 630;
+            }
+            Rabbit newRabbit = new Rabbit(newX, newY);
 
             rabbits.add(newRabbit);
             animals.add(newRabbit);
