@@ -41,7 +41,7 @@ public class SimulationPanel extends JPanel {
             currentRabbit.moveTowards(
                 targetGrass.getX(),
                 targetGrass.getY(),
-                10
+                8
             );
 }
            Rabbit targetRabbit = findClosestRabbit();
@@ -49,7 +49,7 @@ public class SimulationPanel extends JPanel {
             wolf.moveTowards(
             targetRabbit.getX(),
             targetRabbit.getY(),
-            5
+            11
     );
             energyCounter = energyCounter + 1;
 
@@ -81,24 +81,50 @@ public class SimulationPanel extends JPanel {
         g.fillRect(grass.getX(), grass.getY(), 20, 20);
     }
 
+         for (int i = 0; i < rabbits.size(); i++) {
+        Rabbit currentRabbit = rabbits.get(i);
+
         g.setColor(Color.GRAY);
 
-        for (Rabbit currentRabbit : rabbits) {
-            g.fillOval(
+        g.fillOval(
             currentRabbit.getX(),
             currentRabbit.getY(),
             20,
             20
-            );
-        }
-        g.setColor(Color.RED);
-        g.fillOval(wolf.getX(), wolf.getY(), 20, 20);
+        );
 
         g.setColor(Color.BLACK);
 
-        g.drawString("Rabbit Energy: " + rabbits.get(0).getEnergy(), 10, 20);
-        g.drawString("Wolf Energy: " + wolf.getEnergy(), 10, 40);
+        g.drawString(
+            "R" + (i + 1) + ": " + currentRabbit.getEnergy(),
+            currentRabbit.getX(),
+            currentRabbit.getY() - 5
+        );
     }
+
+    g.setColor(Color.RED);
+
+    g.fillOval(
+        wolf.getX(),
+        wolf.getY(),
+        20,
+        20
+    );
+
+    g.setColor(Color.BLACK);
+
+    g.drawString(
+        "Rabbit Count: " + rabbits.size(),
+        10,
+        20
+    );
+
+    g.drawString(
+        "Wolf Energy: " + wolf.getEnergy(),
+        10,
+        40
+    );
+}
     
     private void checkRabbitGrass() {
      for (Rabbit currentRabbit : rabbits) {
@@ -111,7 +137,7 @@ public class SimulationPanel extends JPanel {
                 currentRabbit.getY() < grass.getY() + 20 &&
                 currentRabbit.getY() + 20 > grass.getY()) {
 
-                currentRabbit.addEnergy(10);
+                currentRabbit.addEnergy(20);
 
                 int newX = (int)(Math.random() * 630);
                 int newY = (int)(Math.random() * 630);
@@ -129,7 +155,7 @@ public class SimulationPanel extends JPanel {
         wolf.getY() <= rabbit.getY() + 20 &&
         wolf.getY() + 20 >= rabbit.getY()) {
 
-        wolf.addEnergy(20);
+        wolf.addEnergy(30);
 
         int newX = (int)(Math.random() * 630);
         int newY = (int)(Math.random() * 630);

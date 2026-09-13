@@ -1,7 +1,7 @@
 public class Wolf extends Animal {
 
     public Wolf(int x, int y) {
-        super(x, y, 40);
+        super(x, y, 50);
     }
 
     @Override
