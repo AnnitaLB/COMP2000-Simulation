@@ -19,20 +19,20 @@ public abstract class Animal extends Entity {
     public boolean isAlive() {
     return energy > 0;
     }
-    public void moveTowards(int targetX, int targetY){
-       int newX = x;
+    public void moveTowards(int targetX, int targetY, int speed){
+    int newX = x;
     int newY = y;
 
     if (x < targetX) {
-        newX = x + 10;
+        newX = x + speed;
     } else if (x > targetX) {
-        newX = x - 10;
+        newX = x - speed;
     }
 
     if (y < targetY) {
-        newY = y + 10;
+        newY = y + speed;
     } else if (y > targetY) {
-        newY = y - 10;
+        newY = y - speed;
     }
 
     try {

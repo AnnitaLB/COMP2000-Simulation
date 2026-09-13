@@ -39,14 +39,16 @@ public class SimulationPanel extends JPanel {
 
             currentRabbit.moveTowards(
                 targetGrass.getX(),
-                targetGrass.getY()
+                targetGrass.getY(),
+                10
             );
 }
            Rabbit targetRabbit = findClosestRabbit();
 
             wolf.moveTowards(
             targetRabbit.getX(),
-            targetRabbit.getY()
+            targetRabbit.getY(),
+            5
     );
             for (Animal animal : animals) {
                 animal.loseEnergy(1);
