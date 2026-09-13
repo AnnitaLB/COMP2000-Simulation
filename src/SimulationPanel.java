@@ -46,13 +46,15 @@ public class SimulationPanel extends JPanel {
                 8
             );
 }
-           Rabbit targetRabbit = findClosestRabbit();
+        if (rabbits.size() > 0) {
+            Rabbit targetRabbit = findClosestRabbit(wolf);
 
             wolf.moveTowards(
             targetRabbit.getX(),
             targetRabbit.getY(),
             11
     );
+}
             energyCounter = energyCounter + 1;
 
         if (energyCounter >= 3) {
@@ -154,7 +156,7 @@ public class SimulationPanel extends JPanel {
         return;
     }
 
-    Rabbit targetRabbit = findClosestRabbit();
+    Rabbit targetRabbit = findClosestRabbit(wolf);
 
     int xDistance = Math.abs(
         wolf.getX() - targetRabbit.getX()
@@ -172,6 +174,7 @@ public class SimulationPanel extends JPanel {
         animals.remove(targetRabbit);
     }
 }
+
         private void checkEnergy() {
      for (int i = rabbits.size() - 1; i >= 0; i--) {
         Rabbit currentRabbit = rabbits.get(i);
@@ -234,19 +237,19 @@ public class SimulationPanel extends JPanel {
 
     return closestGrass;
 }
-   private Rabbit findClosestRabbit() {
+   private Rabbit findClosestRabbit(Wolf currentWolf) {
     Rabbit closestRabbit = rabbits.get(0);
 
     int closestDistance =
-        Math.abs(wolf.getX() - closestRabbit.getX()) +
-        Math.abs(wolf.getY() - closestRabbit.getY());
+        Math.abs(currentWolf.getX() - closestRabbit.getX()) +
+        Math.abs(currentWolf.getY() - closestRabbit.getY());
 
     for (int i = 1; i < rabbits.size(); i++) {
         Rabbit currentRabbit = rabbits.get(i);
 
         int distance =
-            Math.abs(wolf.getX() - currentRabbit.getX()) +
-            Math.abs(wolf.getY() - currentRabbit.getY());
+            Math.abs(currentWolf.getX() - currentRabbit.getX()) +
+            Math.abs(currentWolf.getY() - currentRabbit.getY());
 
         if (distance < closestDistance) {
             closestDistance = distance;
