@@ -1,11 +1,13 @@
 public abstract class Animal extends Entity {
 
     protected int energy;
+    private MovementStrategy movementStrategy;
 
     public Animal(int x, int y, int energy) {
-        super(x, y);
-        this.energy = energy;
-    }
+    super(x, y);
+    this.energy = energy;
+    this.movementStrategy = new DiagonalMovementStrategy();
+}
 
     public int getEnergy() {
         return energy;
@@ -19,27 +21,12 @@ public abstract class Animal extends Entity {
     public boolean isAlive() {
     return energy > 0;
     }
-    public void moveTowards(int targetX, int targetY, int speed){
-    int newX = x;
-    int newY = y;
+    public void setMovementStrategy(MovementStrategy strategy) {
+    this.movementStrategy = strategy;
+}
 
-    if (x < targetX) {
-        newX = x + speed;
-    } else if (x > targetX) {
-        newX = x - speed;
-    }
-
-    if (y < targetY) {
-        newY = y + speed;
-    } else if (y > targetY) {
-        newY = y - speed;
-    }
-
-    try {
-        setPosition(newX, newY);
-    } catch (InvalidPositionException e) {
-        System.out.println(e.getMessage());
-    }
+public void moveTowards(int targetX, int targetY, int speed) {
+    movementStrategy.move(this, targetX, targetY, speed);
 }
     public abstract void move();
 }
