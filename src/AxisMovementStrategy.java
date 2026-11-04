@@ -7,17 +7,21 @@ public class AxisMovementStrategy implements MovementStrategy {
 
         // Move along the X axis first
         if (newX != targetX) {
-            if (newX < targetX) {
-                newX += speed;
+            int distance = targetX - newX;
+
+            if (Math.abs(distance) <= speed) {
+                newX = targetX;
             } else {
-                newX -= speed;
+                newX += Integer.signum(distance) * speed;
             }
-        } else {
-            // Move along the Y axis
-            if (newY < targetY) {
-                newY += speed;
-            } else if (newY > targetY) {
-                newY -= speed;
+        } else if (newY != targetY) {
+            // Move along the Y axis after reaching targetX
+            int distance = targetY - newY;
+
+            if (Math.abs(distance) <= speed) {
+                newY = targetY;
+            } else {
+                newY += Integer.signum(distance) * speed;
             }
         }
 
