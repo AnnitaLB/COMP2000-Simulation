@@ -1,10 +1,24 @@
 public class Rabbit extends Animal {
+    private RabbitState state;
 
     public Rabbit(int x, int y) {
-        super(x, y, 40);
-        setMovementStrategy(new AxisMovementStrategy());
-    }
+    super(x, y, 40);
+    setMovementStrategy(new AxisMovementStrategy());
+    this.state = new FedRabbitState();
+}
+    public void setState(RabbitState state) {
+    this.state = state;
+}
 
+    public int getMovementSpeed() {
+    state.update(this);
+    return state.getMovementSpeed();
+}
+
+    public String getStateName() {
+    state.update(this);
+    return state.getStateName();
+}
     @Override
     public void move() {
         int direction = (int)(Math.random() * 4);

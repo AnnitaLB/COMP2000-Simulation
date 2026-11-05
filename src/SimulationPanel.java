@@ -43,7 +43,7 @@ public class SimulationPanel extends JPanel {
             currentRabbit.moveTowards(
                 targetGrass.getX(),
                 targetGrass.getY(),
-                8
+                currentRabbit.getMovementSpeed()
             );
 }
         if (rabbits.size() > 0) {
@@ -100,7 +100,8 @@ public class SimulationPanel extends JPanel {
         g.setColor(Color.BLACK);
 
         g.drawString(
-            "R" + (i + 1) + ": " + currentRabbit.getEnergy(),
+            "R" + (i + 1) + ": " + currentRabbit.getEnergy()
+    + " (" + currentRabbit.getStateName() + ")",
             currentRabbit.getX(),
             currentRabbit.getY() - 5
         );
