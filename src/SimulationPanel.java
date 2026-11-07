@@ -146,6 +146,44 @@ long hungryRabbitCount = rabbits.stream()
     "Hungry Rabbits: " + hungryRabbitCount,
     10, 80
 );
+java.util.Map<String, java.util.IntSummaryStatistics> energyBySpecies =
+    animals.stream()
+        .collect(java.util.stream.Collectors.groupingBy(
+            animal -> animal.getClass().getSimpleName(),
+            java.util.stream.Collectors.summarizingInt(
+                Animal::getEnergy
+            )
+        ));
+
+java.util.IntSummaryStatistics rabbitStats =
+    energyBySpecies.get("Rabbit");
+
+java.util.IntSummaryStatistics wolfStats =
+    energyBySpecies.get("Wolf");
+
+if (rabbitStats != null) {
+    g.drawString(
+        String.format(
+            "Rabbits: %d | Energy: %d-%d",
+            rabbitStats.getCount(),
+            rabbitStats.getMin(),
+            rabbitStats.getMax()
+        ),
+        10, 100
+    );
+}
+
+if (wolfStats != null) {
+    g.drawString(
+        String.format(
+            "Wolves: %d | Energy: %d-%d",
+            wolfStats.getCount(),
+            wolfStats.getMin(),
+            wolfStats.getMax()
+        ),
+        10, 120
+    );
+}
 }
     
     private void checkRabbitGrass() {
