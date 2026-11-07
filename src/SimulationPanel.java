@@ -100,8 +100,7 @@ public class SimulationPanel extends JPanel {
         g.setColor(Color.BLACK);
 
         g.drawString(
-            "R" + (i + 1) + ": " + currentRabbit.getEnergy()
-    + " (" + currentRabbit.getStateName() + ")",
+            "R" + (i + 1) + ": " + currentRabbit.getEnergy(),
             currentRabbit.getX(),
             currentRabbit.getY() - 5
         );
@@ -216,50 +215,26 @@ public class SimulationPanel extends JPanel {
         animals.set(1, wolf);
     }
     }
-    private Grass findClosestGrass(Rabbit currentRabbit) {
-    Grass closestGrass = grassList.get(0);
 
-    int closestDistance =
-        Math.abs(currentRabbit.getX() - closestGrass.getX()) +
-        Math.abs(currentRabbit.getY() - closestGrass.getY());
-
-    for (int i = 1; i < grassList.size(); i++) {
-        Grass grass = grassList.get(i);
-
-        int distance =
-            Math.abs(currentRabbit.getX() - grass.getX()) +
-            Math.abs(currentRabbit.getY() - grass.getY());
-
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closestGrass = grass;
-        }
-    }
-
-    return closestGrass;
+private int distance(Entity a, Entity b) {
+    return Math.abs(a.getX() - b.getX())
+         + Math.abs(a.getY() - b.getY());
 }
-   private Rabbit findClosestRabbit(Wolf currentWolf) {
-    Rabbit closestRabbit = rabbits.get(0);
 
-    int closestDistance =
-        Math.abs(currentWolf.getX() - closestRabbit.getX()) +
-        Math.abs(currentWolf.getY() - closestRabbit.getY());
+private Grass findClosestGrass(Rabbit currentRabbit) {
+    return grassList.stream()
+        .min(java.util.Comparator.comparingInt(
+            grass -> distance(currentRabbit, grass)))
+        .orElseThrow(() -> new IllegalStateException("No grass available"));
+}
 
-    for (int i = 1; i < rabbits.size(); i++) {
-        Rabbit currentRabbit = rabbits.get(i);
+private Rabbit findClosestRabbit(Wolf currentWolf) {
+    return rabbits.stream()
+        .min(java.util.Comparator.comparingInt(
+            rabbit -> distance(currentWolf, rabbit)))
+        .orElseThrow(() -> new IllegalStateException("No rabbits available"));
+}
 
-        int distance =
-            Math.abs(currentWolf.getX() - currentRabbit.getX()) +
-            Math.abs(currentWolf.getY() - currentRabbit.getY());
-
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closestRabbit = currentRabbit;
-        }
-    }
-
-    return closestRabbit;
-} 
 private void reproduceRabbits() {
     int currentRabbitCount = rabbits.size();
 
