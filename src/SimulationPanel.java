@@ -128,6 +128,24 @@ public class SimulationPanel extends JPanel {
         10,
         40
     );
+    double averageRabbitEnergy = rabbits.stream()
+    .mapToInt(Rabbit::getEnergy)
+    .average()
+    .orElse(0.0);
+
+long hungryRabbitCount = rabbits.stream()
+    .filter(r -> r.getEnergy() < 30)
+    .count();
+
+    g.drawString(
+    String.format("Average Rabbit Energy: %.1f", averageRabbitEnergy),
+    10, 60
+);
+
+    g.drawString(
+    "Hungry Rabbits: " + hungryRabbitCount,
+    10, 80
+);
 }
     
     private void checkRabbitGrass() {
@@ -175,15 +193,14 @@ public class SimulationPanel extends JPanel {
     }
 }
 
-        private void checkEnergy() {
-     for (int i = rabbits.size() - 1; i >= 0; i--) {
-        Rabbit currentRabbit = rabbits.get(i);
+    private void checkEnergy() {
+    java.util.List<Rabbit> deadRabbits = rabbits.stream()
+    .filter(r -> !r.isAlive())
+    .collect(java.util.stream.Collectors.toList());
 
-        if (!currentRabbit.isAlive()) {
-            rabbits.remove(i);
-            animals.remove(currentRabbit);
-        }
-    }
+    rabbits.removeAll(deadRabbits);
+    animals.removeAll(deadRabbits);
+        
 
     if (rabbits.size() == 0) {
         int newX = (int)(Math.random() * 630);
