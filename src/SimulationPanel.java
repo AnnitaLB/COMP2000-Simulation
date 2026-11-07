@@ -146,14 +146,19 @@ long hungryRabbitCount = rabbits.stream()
     "Hungry Rabbits: " + hungryRabbitCount,
     10, 80
 );
+
+java.util.List<Animal> animalSnapshot =
+    new java.util.ArrayList<>(animals);
+
 java.util.Map<String, java.util.IntSummaryStatistics> energyBySpecies =
-    animals.stream()
+    animalSnapshot.parallelStream()
         .collect(java.util.stream.Collectors.groupingBy(
             animal -> animal.getClass().getSimpleName(),
             java.util.stream.Collectors.summarizingInt(
                 Animal::getEnergy
             )
         ));
+
 
 java.util.IntSummaryStatistics rabbitStats =
     energyBySpecies.get("Rabbit");
